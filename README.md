@@ -12,19 +12,22 @@ Client-side Fabric mod for Minecraft Java Edition 1.21.4. Designed first for tes
 ## Requirements
 
 - Minecraft Java Edition 1.21.4
-- Java 21
+- Java 21 JDK
+- Gradle 8.11 or compatible with Fabric Loom 1.9
 - Fabric Loader 0.16.10 or newer
 - Fabric API for 1.21.4
 
 ## Build
 
-1. Install a Java 21 JDK.
+1. Install a Java 21 JDK and a compatible Gradle installation.
 2. Download or clone this repository.
-3. Run ./gradlew build on Linux/macOS or gradlew.bat build on Windows.
+3. In the repository folder, run: gradle build
 4. The mod JAR will be in build/libs/.
 
-This repository does not include a prebuilt JAR. To install the built mod, put the JAR in the Minecraft mods folder alongside Fabric API.
+This repository does not include a prebuilt JAR or Gradle wrapper. To install the built mod, put the JAR in the Minecraft mods folder alongside Fabric API.
 
 ## Notes
 
 This is an experimental client-side prototype. Test in a single-player world first. The bow feature is a visual practice indicator, not an automatic aim system. The jump effect can interact with other Speed effects; when Pulo BLZ is enabled, it avoids replacing an already active Speed effect.
+
+The source files have been committed to GitHub, but a successful Gradle build has not yet been verified in this environment.
