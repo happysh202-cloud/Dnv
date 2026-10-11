@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "experimentalmenu",
+  "version": "${version}",
+  "name": "Experimental Menu",
+  "description": "A single-player experimental menu with entity boxes, bow practice indicators, and a jump speed experiment.",
+  "authors": ["happysh"],
+  "environment": "client",
+  "entrypoints": { "client": ["dev.happysh.experimentalmenu.ExperimentalMenuClient"] },
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
