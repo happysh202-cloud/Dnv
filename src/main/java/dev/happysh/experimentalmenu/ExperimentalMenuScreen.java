@@ -6,9 +6,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 
 public final class ExperimentalMenuScreen extends Screen {
-    private ButtonWidget espButton;
-    private ButtonWidget aimButton;
-    private ButtonWidget puloButton;
+    private ButtonWidget espButton, aimButton, puloButton, ponteButton;
 
     public ExperimentalMenuScreen() {
         super(Text.literal("Experimental Menu"));
@@ -16,54 +14,64 @@ public final class ExperimentalMenuScreen extends Screen {
 
     @Override
     protected void init() {
-        int buttonWidth = Math.min(240, this.width - 40);
-        int left = (this.width - buttonWidth) / 2;
-        int top = this.height / 2 - 44;
-        espButton = addDrawableChild(ButtonWidget.builder(buttonText("ESP Box", ExperimentalMenuClient.espBoxEnabled), button -> {
+        int w = Math.min(240, this.width - 40);
+        int x = (this.width - w) / 2;
+        int y = this.height / 2 - 57;
+        espButton = addDrawableChild(ButtonWidget.builder(buttonText("ESP Box", ExperimentalMenuClient.espBoxEnabled), b -> {
             ExperimentalMenuClient.espBoxEnabled = !ExperimentalMenuClient.espBoxEnabled;
-            updateButtonLabels();
-        }).dimensions(left, top, buttonWidth, 20).build());
-        aimButton = addDrawableChild(ButtonWidget.builder(buttonText("Aim Bot Arc", ExperimentalMenuClient.aimBotArcEnabled), button -> {
+            updateLabels();
+        }).dimensions(x, y, w, 20).build());
+        aimButton = addDrawableChild(ButtonWidget.builder(buttonText("Aim Bot Arc", ExperimentalMenuClient.aimBotArcEnabled), b -> {
             ExperimentalMenuClient.aimBotArcEnabled = !ExperimentalMenuClient.aimBotArcEnabled;
-            updateButtonLabels();
-        }).dimensions(left, top + 27, buttonWidth, 20).build());
-        puloButton = addDrawableChild(ButtonWidget.builder(buttonText("Pulo BLZ", ExperimentalMenuClient.puloBlzEnabled), button -> {
+            updateLabels();
+        }).dimensions(x, y + 25, w, 20).build());
+        puloButton = addDrawableChild(ButtonWidget.builder(buttonText("Pulo BLZ", ExperimentalMenuClient.puloBlzEnabled), b -> {
             ExperimentalMenuClient.puloBlzEnabled = !ExperimentalMenuClient.puloBlzEnabled;
-            updateButtonLabels();
-        }).dimensions(left, top + 54, buttonWidth, 20).build());
-        addDrawableChild(ButtonWidget.builder(Text.literal("Fechar"), button -> close())
-                .dimensions(left, top + 88, buttonWidth, 20).build());
+            updateLabels();
+        }).dimensions(x, y + 50, w, 20).build());
+        ponteButton = addDrawableChild(ButtonWidget.builder(buttonText("Ponte Auto", ExperimentalMenuClient.ponteAutoEnabled), b -> {
+            if (client != null && client.isInSingleplayer()) {
+                ExperimentalMenuClient.ponteAutoEnabled = !ExperimentalMenuClient.ponteAutoEnabled;
+            } else {
+                ExperimentalMenuClient.ponteAutoEnabled = false;
+            }
+            updateLabels();
+        }).dimensions(x, y + 75, w, 20).build());
+        addDrawableChild(ButtonWidget.builder(Text.literal("Fechar"), b -> close())
+                .dimensions(x, y + 105, w, 20).build());
     }
 
-    private static Text buttonText(String name, boolean enabled) {
-        return Text.literal(name + "  [" + (enabled ? "ON" : "OFF") + "]");
+    private static Text buttonText(String name, boolean on) {
+        return Text.literal(name + "  [" + (on ? "ON" : "OFF") + "]");
     }
 
-    private void updateButtonLabels() {
+    private void updateLabels() {
         espButton.setMessage(buttonText("ESP Box", ExperimentalMenuClient.espBoxEnabled));
         aimButton.setMessage(buttonText("Aim Bot Arc", ExperimentalMenuClient.aimBotArcEnabled));
         puloButton.setMessage(buttonText("Pulo BLZ", ExperimentalMenuClient.puloBlzEnabled));
+        ponteButton.setMessage(buttonText("Ponte Auto", ExperimentalMenuClient.ponteAutoEnabled));
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        context.fill(0, 0, this.width, this.height, 0xD9101018);
-        int panelWidth = Math.min(300, this.width - 20);
-        int panelLeft = (this.width - panelWidth) / 2;
-        int panelTop = this.height / 2 - 91;
-        context.fill(panelLeft, panelTop, panelLeft + panelWidth, panelTop + 124, 0xFF191923);
-        context.fill(panelLeft, panelTop, panelLeft + panelWidth, panelTop + 3, 0xFFFF3434);
-        context.drawCenteredTextWithShadow(this.textRenderer, "EXPERIMENTAL MENU", this.width / 2, panelTop + 10, 0xFFFFFFFF);
-        context.drawCenteredTextWithShadow(this.textRenderer, "Minecraft Java 1.21.4 - Fabric", this.width / 2, panelTop + 23, 0xFFB8B8C8);
-        drawStatus(context, panelLeft + 8, panelTop + 45, panelWidth - 16, ExperimentalMenuClient.espBoxEnabled);
-        drawStatus(context, panelLeft + 8, panelTop + 72, panelWidth - 16, ExperimentalMenuClient.aimBotArcEnabled);
-        drawStatus(context, panelLeft + 8, panelTop + 99, panelWidth - 16, ExperimentalMenuClient.puloBlzEnabled);
+        context.fill(0, 0, width, height, 0xD9101018);
+        int pw = Math.min(300, width - 20);
+        int px = (width - pw) / 2;
+        int py = height / 2 - 105;
+        context.fill(px, py, px + pw, py + 151, 0xFF191923);
+        context.fill(px, py, px + pw, py + 3, 0xFFFF3434);
+        context.drawCenteredTextWithShadow(textRenderer, "EXPERIMENTAL MENU", width / 2, py + 8, 0xFFFFFFFF);
+        context.drawCenteredTextWithShadow(textRenderer, "Minecraft Java 1.21.4 - Fabric", width / 2, py + 20, 0xFFB8B8C8);
+        drawStatus(context, px + 8, py + 41, pw - 16, ExperimentalMenuClient.espBoxEnabled);
+        drawStatus(context, px + 8, py + 66, pw - 16, ExperimentalMenuClient.aimBotArcEnabled);
+        drawStatus(context, px + 8, py + 91, pw - 16, ExperimentalMenuClient.puloBlzEnabled);
+        drawStatus(context, px + 8, py + 116, pw - 16, ExperimentalMenuClient.ponteAutoEnabled);
         super.render(context, mouseX, mouseY, delta);
     }
 
-    private void drawStatus(DrawContext context, int x, int y, int width, boolean enabled) {
-        context.fill(x, y, x + width, y + 19, enabled ? 0x6630D878 : 0x44383848);
-        context.fill(x, y, x + 3, y + 19, enabled ? 0xFF30D878 : 0xFF686879);
+    private void drawStatus(DrawContext context, int x, int y, int w, boolean on) {
+        context.fill(x, y, x + w, y + 19, on ? 0x6630D878 : 0x44383848);
+        context.fill(x, y, x + 3, y + 19, on ? 0xFF30D878 : 0xFF686879);
     }
 
     @Override
