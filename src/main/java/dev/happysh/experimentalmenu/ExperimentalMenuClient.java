@@ -25,6 +25,8 @@ public final class ExperimentalMenuClient implements ClientModInitializer {
     public static boolean espBoxEnabled = false;
     public static boolean aimBotArcEnabled = false;
     public static boolean puloBlzEnabled = false;
+    // Ponte Auto is intentionally limited to singleplayer worlds.
+    public static boolean ponteAutoEnabled = false;
     private static KeyBinding openMenuKey;
     private static boolean menuKeyWasDown = false;
     private static boolean addedSpeedEffect = false;
